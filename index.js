@@ -104,3 +104,25 @@ async function addDepartment() {
         console.error(err);
     }
 }
+
+async function addRole() {
+    const departments = await getDepartments();
+    const { title, salary, departmentId } = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'What is the title of the role?',
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the salary of the role?',
+        },
+        {
+            type: 'list',
+            name: 'departmentId',
+            message: 'Which department does this role belong to?',
+            choices: departments.map(department => ({ name: department.name, value: department.id}))
+        }
+    ]);
+}
