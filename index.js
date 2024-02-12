@@ -60,3 +60,12 @@ const mainMenu = async () => {
         process.exit(1);
     }
 };
+
+async function viewAllDepartments() {
+    try {
+        const [rows] = await db.query('SELECT * FROM department');
+        console.table(rows);
+    } catch (err) {
+        console.error(err);
+    }
+}
