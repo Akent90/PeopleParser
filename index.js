@@ -53,5 +53,10 @@ const mainMenu = async () => {
             console.log('Goodbye!');
             process.exit();
         }
+
+        return mainMenu();
+    } catch (err) {
+        console.error('Error:', err);
+        process.exit(1);
     }
-}
+};
