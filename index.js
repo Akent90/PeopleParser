@@ -125,4 +125,11 @@ async function addRole() {
             choices: departments.map(department => ({ name: department.name, value: department.id}))
         }
     ]);
+
+    try {
+        await db.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, departmentId]);
+        console.log(`Added ${title} to the database`);
+    } catch (err) {
+        console.error(err);
+    }
 }
