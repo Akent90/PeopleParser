@@ -28,5 +28,30 @@ const mainMenu = async () => {
             ],
            }, 
         ]);
+
+        switch (action) {
+            case 'View all departments':
+                await viewAllDepartments();
+                break;
+            case 'View all roles':
+                await viewAllRoles();
+                break;
+            case 'View all employees':
+                await viewAllEmployees();
+                break;
+            case 'Add a department':
+                await addDepartment();
+                break;
+            case 'Add a role':
+                await addRole();
+                break;
+            case 'Add an employee':
+                await addEmployee();
+                break;
+            case 'Exit':
+            db.end();
+            console.log('Goodbye!');
+            process.exit();
+        }
     }
 }
