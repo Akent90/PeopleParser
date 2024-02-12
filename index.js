@@ -69,3 +69,21 @@ async function viewAllDepartments() {
         console.error(err);
     }
 }
+
+async function viewAllRoles() {
+    try {
+        const [rows] = await db.query('SELECT * FROM role');
+        console.table(rows);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function viewAllEmployees() {
+    try {
+        const [rows] = await db.query('SELECT * FROM employee');
+        console.table(rows);
+    } catch (err) {
+        console.error(err);
+    }
+}
