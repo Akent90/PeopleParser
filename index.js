@@ -181,3 +181,8 @@ async function getEmployees() {
     const [rows] = await db.query('SELECT id, first_name, last_name FROM employee');
     return rows;
 }
+
+async function getManagers() {
+    const [rows] = await db.query('SELECT id, first_name, last_name FROM employee WHERE manager_id IS NULL');
+    return rows;
+}
