@@ -64,6 +64,7 @@ const mainMenu = async () => {
     }
 };
 
+// Function to view all departments 
 async function viewAllDepartments() {
     try {
         const [rows] = await db.query('SELECT * FROM department');
