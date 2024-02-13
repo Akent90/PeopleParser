@@ -166,3 +166,13 @@ async function updateEmployeeRole() {
         console.error(err);
     }         
 }
+
+async function getDepartments() {
+    const [rows] = await db.query('SELECT * FROM department');
+    return rows;
+}
+
+async function getRoles() {
+    const [rows] = await db.query('SELECT * FROM role');
+    return rows;
+}
