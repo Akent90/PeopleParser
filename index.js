@@ -112,6 +112,7 @@ async function addDepartment() {
     }
 }
 
+// Function to add a role 
 async function addRole() {
     const departments = await getDepartments();
     const { title, salary, departmentId } = await inquirer.prompt([
