@@ -94,6 +94,7 @@ async function viewAllEmployees() {
     }
 }
 
+// Function to add a department 
 async function addDepartment() {
     const { departmentName } = await inquirer.prompt([
         {
