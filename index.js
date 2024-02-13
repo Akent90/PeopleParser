@@ -56,6 +56,7 @@ const mainMenu = async () => {
             process.exit();
         }
 
+        // Show the menu again 
         return mainMenu();
     } catch (err) {
         console.error('Error:', err);
