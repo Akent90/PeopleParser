@@ -84,6 +84,7 @@ async function viewAllRoles() {
     }
 }
 
+// Function to view all employees 
 async function viewAllEmployees() {
     try {
         const [rows] = await db.query('SELECT * FROM employee');
