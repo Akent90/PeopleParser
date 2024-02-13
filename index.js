@@ -10,6 +10,7 @@ const db = mysql.createConection({
     databade: process.env.DB_NAME
 }).promise();
 
+// Main menu prompt using Inquirer
 const mainMenu = async () => {
     try {
         const { action } = await inquirer.prompt([
