@@ -74,6 +74,7 @@ async function viewAllDepartments() {
     }
 }
 
+// Function to view all roles
 async function viewAllRoles() {
     try {
         const [rows] = await db.query('SELECT * FROM role');
