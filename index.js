@@ -176,3 +176,8 @@ async function getRoles() {
     const [rows] = await db.query('SELECT * FROM role');
     return rows;
 }
+
+async function getEmployees() {
+    const [rows] = await db.query('SELECT id, first_name, last_name FROM employee');
+    return rows;
+}
