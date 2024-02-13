@@ -133,3 +133,7 @@ async function addRole() {
         console.error(err);
     }
 }
+
+async function updateEmployeeRole() {
+    
+}
