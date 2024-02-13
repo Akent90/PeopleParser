@@ -135,5 +135,34 @@ async function addRole() {
 }
 
 async function updateEmployeeRole() {
-    
+    const employees = await getEmployees();
+    const employeeChoices = employees.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }));
+
+    const { employeeId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeId',
+            message: 'Which employee\'s role do you want to update?',
+            choices: employeeChoices
+        }
+    ]);
+
+    const roles = await getRandomValues();
+    const roleChoices = roles.map(role => ({ name: role.title, value: role.id }));
+
+    const { roleId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'roleId',
+            message: 'What is the new role?',
+            choices: roleChoices
+        }
+    ]);
+
+    try {
+        await db.query('UPDATE employee SET role_id = ?', [roleId, employeeId]);
+        console.log('Employee role updated successfully.');
+    }   catch (err) {
+        console.error(err);
+    }         
 }
