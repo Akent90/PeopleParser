@@ -27,4 +27,13 @@ async function addDepartment() {
     }
 }
 
-module.exports = { viewAllDepartments, addDepartment };
+async function getDepartments() {
+    const [rows] = await db.query('SELECT * FROM department');
+    return rows;
+}
+
+module.exports = {
+    viewAllDepartments,
+    addDepartment,
+    getDepartments,
+};

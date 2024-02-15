@@ -39,4 +39,13 @@ async function addRole() {
     }
 }
 
-module.exports = { viewAllRoles, addRole };
+async function getRoles() {
+    const [rows] = await db.query('SELECT * FROM role');
+    return rows;
+}
+
+module.exports = {
+    viewAllRoles,
+    addRole,
+    getRoles,
+};
