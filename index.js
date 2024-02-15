@@ -50,6 +50,9 @@ const mainMenu = async () => {
             case 'Add an employee':
                 await addEmployee();
                 break;
+            case 'Update an employee role':
+                await updateEmployeeRole();
+                break;
             case 'Exit':
             db.end();
             console.log('Goodbye!');
@@ -139,6 +142,51 @@ async function addRole() {
         console.log(`Added ${title} to the database`);
     } catch (err) {
         console.error(err);
+    }
+}
+
+async function addEmployee() {
+    const roles = await getRoles();
+    const managers = await getManagers();
+
+    const roleChoices = roles.map( role => ({ name: role.title, value: role.id }));
+    const managerChoices = managers.map(manager => ({ name: `${manager.first_name} ${manager.last_name}`, value: manager.id }));
+
+    managerChoices.unshift({ name: 'None', value: null });
+
+    const { firstName, lastName, roleId, managerId } = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: "What is the employee's first name?",
+        },
+        {
+            type: 'input',
+            name: 'lastName',
+            message: "What is the employee's last name?",
+        },
+        {
+            type: 'list',
+            name: 'roleId',
+            message: "What is the employee's role?",
+            choices: roleChoices,
+        },
+        {
+            type: 'list',
+            name: 'managerId',
+            message: "Who is the employee's manager?",
+            choices: managerChoices,
+        },
+    ]);
+
+    try {
+        await db.query(
+            'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+            [firstName, lastName, roleId, managerId]
+        );
+        console.log(`Added ${firstName} ${lastName} to the database`);
+    } catch (err) {
+        console.error('Error adding new employee:', err);
     }
 }
 
