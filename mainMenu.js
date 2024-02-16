@@ -1,8 +1,10 @@
+// Importing the necessary modules and functions 
 const inquirer = require('inquirer');
 const { viewAllDepartments, addDepartment, deleteDepartment, viewDepartmentBudget } = require('./actions/departmentActions');
 const { viewAllRoles, addRole, deleteRole } = require('./actions/roleActions');
 const { viewAllEmployees, addEmployee, updateEmployeeRole, updateEmployeeManager, viewEmployeesByManager, viewEmployeesByDepartment, deleteEmployee } = require('./actions/employeeActions');
 
+// Definition of the mainMenu asynchronous function 
 const mainMenu = async () => {
     try {
         const { action } = await inquirer.prompt([
@@ -11,6 +13,7 @@ const mainMenu = async () => {
             name: 'action',
             message: 'What would you like to do?', 
             choices: [
+                // List of actions corresponding to various functionalities of the application
                 'View all departments',
                 'View all roles', 
                 'View all employees',
@@ -30,10 +33,12 @@ const mainMenu = async () => {
            }, 
         ]);
 
+        // Handling the user's selection
         switch (action) {
             case 'View all departments':
                 await viewAllDepartments();
                 break;
+            // Other cases handling different actions     
             case 'View all roles':
                 await viewAllRoles();
                 break;
@@ -74,6 +79,7 @@ const mainMenu = async () => {
                 await viewDepartmentBudget();
                 break;
             case 'Exit':
+                // Closing the database connection and exiting the application
                 db.end();
                 console.log('Goodbye!');
                 process.exit();
@@ -81,7 +87,7 @@ const mainMenu = async () => {
                 console.log('Invalid action!');    
         }
 
-        // Show the menu again 
+        // Recursively calling the mainMenu to show the menu again after an action is completed 
         return mainMenu();
     } catch (err) {
         console.error('Error:', err);
@@ -89,4 +95,5 @@ const mainMenu = async () => {
     }
 };
 
+// Exporting the mainMenu function to be used as the entry point of the application
 module.exports = mainMenu;
