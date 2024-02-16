@@ -1,9 +1,12 @@
+// Required modules for command-line interactions and databse operations 
 const inquirer = require('inquirer');
 const db = require('../db');
 
 async function viewAllRoles() {
     try {
+        // Executes SQL query to select all roles from the 'role' table 
         const [rows] = await db.query('SELECT * FROM role');
+        // Displays the results in a table format for better readability 
         console.table(rows);
     } catch (err) {
         console.error(err);
@@ -27,6 +30,7 @@ async function addRole() {
             type: 'list',
             name: 'departmentId',
             message: 'Which department does this role belong to?',
+            // Maps department names to choice objects for inquirer prompt 
             choices: departments.map(department => ({ name: department.name, value: department.id}))
         }
     ]);
@@ -65,6 +69,7 @@ async function deleteRole() {
     }
 }
 
+// Exporting the functions to be used in other parts of the application 
 module.exports = {
     viewAllRoles,
     addRole,
