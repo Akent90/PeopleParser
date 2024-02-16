@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const db = require('../db');
+const { getDepartments } = require('./actions/departmentActions');
 
 async function viewAllEmployees() {
     try {
@@ -150,10 +151,59 @@ async function viewEmployeesByManager() {
     }
 }
 
+async function viewEmployeesByDepartment() {
+    const departments = await getDepartments();
+    const departmentChoices = departments.map(dept => ({ name: dept.name, value: dept.id }));
+
+    const { departmentId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'departmentId',
+            message: 'Select a department to view its employees:',
+            choices: departmentChoices
+        }
+    ]);
+
+    try {
+        const [rows] = await db.query(
+            'SELECT e.id, e.first_name, e.last_name, r.title FROM employee e JOIN role r ON e.role_id = r.id WHERE r.department_id = ?',
+            [departmentId]
+        );
+        console.table(rows);
+    } catch (err) {
+        console.error('Error viewing employees by department:', err);
+    }
+}
+
+async function deleteEmployee() {
+    const employees = await getEmployees();
+    const employeeChoices = employees.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }));
+
+    const { employeeId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeId',
+            message: 'Which employee would you like to delete?',
+            choices: employeeChoices
+        }
+    ]);
+
+    try {
+        await db.query('DELETE FROM employee WHERE id = ?', [employeeId]);
+        console.log('Employee deleted successfully.');
+    } catch (err) {
+        console.error('Error deleting employee:', err);
+    }
+}
+
 module.exports = {
     viewAllEmployees,
     addEmployee,
     updateEmployeeRole, 
     getEmployees,
-    getManagers
+    getManagers,
+    updateEmployeeManager,
+    viewEmployeesByManager,
+    viewEmployeesByDepartment,
+    deleteEmployee,
 };
