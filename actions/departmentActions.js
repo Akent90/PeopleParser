@@ -32,6 +32,27 @@ async function getDepartments() {
     return rows;
 }
 
+async function deleteDepartment() {
+    const departments = await getDepartments();
+    const departmentChoices = departments.map(dept => ({ name: dept.name, value: dept.id }));
+
+    const { departmentId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'departmentId',
+            message: 'Which department would you like to delete?',
+            choices: departmentChoices
+        }
+    ]);
+
+    try {
+        await db.query('DELETE FROM department WHERE id = ?' [departmentId]);
+        console.log('Department deleted successfully.');
+    } catch (err) {
+        console.error('Error deleting department:', err);
+    }
+}
+
 module.exports = {
     viewAllDepartments,
     addDepartment,
