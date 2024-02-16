@@ -53,6 +53,30 @@ async function deleteDepartment() {
     }
 }
 
+async function viewDepartmentBudget() {
+    const departments = await getDepartments();
+    const departmentChoices = departments.map(dept => ({ name: dept.name, value: dept.id }));
+
+    const { departmentId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'departmentId',
+            message: 'Select a department to view its total budget:',
+            choices: departmentChoices
+        }
+    ]);
+
+    try {
+        const [rows] = await db.query(
+            'SELECT SUM(salary) AS total_budget FROM role WHERE department_id = ?',
+            [departmentId]
+        );
+        console.log(`Total Utilized Budget for the Department: $${rows[0].total_budget}`);
+    } catch (err) {
+        console.error('Error viewing budget by department:', err);
+    }
+}
+
 module.exports = {
     viewAllDepartments,
     addDepartment,
