@@ -129,6 +129,27 @@ async function updateEmployeeManager() {
     }
 }
 
+async function viewEmployeesByManager() {
+    const managers = await getManagers();
+    const managerChoices = managers.map(mgr => ({ name: `${mgr.first_name} ${mgr.last_name}`, value: mrg.id }));
+
+    const { managerId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'managerId',
+            message: 'Select a manager to view their employees:',
+            choices: managerChoices
+        }
+    ]);
+
+    try {
+        const [rows] = await db.query('SELECT * FROM employee WHERE manager_id = ?', [managerId]);
+        console.table(rows);
+    } catch (err) {
+        console.error('Error viewing employees by manager:', err);
+    }
+}
+
 module.exports = {
     viewAllEmployees,
     addEmployee,
