@@ -1,9 +1,12 @@
+// Import necessary modules
 const inquirer = require('inquirer');
 const db = require('../db');
 
+// Function to add a new department
 async function viewAllDepartments() {
     try {
         const [rows] = await db.query('SELECT * FROM department');
+        // Displaying the results in a table format 
         console.table(rows);
     } catch (err) {
         console.error(err);
