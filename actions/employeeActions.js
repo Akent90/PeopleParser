@@ -90,7 +90,7 @@ async function updateEmployeeRole() {
     ]);
 
     try {
-        await db.query('UPDATE employee SET role_id = ?', [roleId, employeeId]);
+        await db.query('UPDATE employee SET role_id = ? WHERE id = ?', [roleId, employeeId]);
         console.log('Employee role updated successfully.');
     }   catch (err) {
         console.error(err);
