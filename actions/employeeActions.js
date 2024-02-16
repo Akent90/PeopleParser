@@ -2,6 +2,7 @@
 const inquirer = require('inquirer');
 const db = require('../db');
 const { getDepartments } = require('../actions/departmentActions');
+const { getRoles } = require('../actions/roleActions'); 
 
 // Function to view all employees 
 async function viewAllEmployees() {
@@ -76,7 +77,7 @@ async function updateEmployeeRole() {
         }
     ]);
 
-    const roles = await getRandomValues();
+    const roles = await getEmployees();
     const roleChoices = roles.map(role => ({ name: role.title, value: role.id }));
 
     const { roleId } = await inquirer.prompt([
@@ -144,7 +145,7 @@ async function updateEmployeeManager() {
 // Function to view employees by their manager 
 async function viewEmployeesByManager() {
     const managers = await getManagers();
-    const managerChoices = managers.map(mgr => ({ name: `${mgr.first_name} ${mgr.last_name}`, value: mrg.id }));
+    const managerChoices = managers.map(mgr => ({ name: `${mgr.first_name} ${mgr.last_name}`, value: mgr.id }));
 
     const { managerId } = await inquirer.prompt([
         {

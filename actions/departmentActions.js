@@ -53,7 +53,7 @@ async function deleteDepartment() {
     ]);
 
     try {
-        await db.query('DELETE FROM department WHERE id = ?' [departmentId]);
+        await db.query('DELETE FROM department WHERE id = ?', [departmentId]);
         console.log('Department deleted successfully.');
     } catch (err) {
         console.error('Error deleting department:', err);

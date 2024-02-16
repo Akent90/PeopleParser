@@ -1,6 +1,7 @@
 // Required modules for command-line interactions and databse operations 
 const inquirer = require('inquirer');
 const db = require('../db');
+const { getDepartments } = require('../actions/departmentActions');
 
 async function viewAllRoles() {
     try {
