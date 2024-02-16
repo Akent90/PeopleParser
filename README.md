@@ -26,7 +26,7 @@ MySQL: The application uses MySQL as its database system. You can download and i
 
 ## Usage
 
-[Click here to watch a video demonstrating full functionality!](https://drive.google.com/file/d/1Cgqv6xMXRUDVyfu-hofUtAsLyUKG27Ni/view){:target="\_blank"}
+[Click here to watch a video demonstrating full functionality!](https://drive.google.com/file/d/1Cgqv6xMXRUDVyfu-hofUtAsLyUKG27Ni/view)
 
 To effectively use PeopleParder, follow these steps:
 
