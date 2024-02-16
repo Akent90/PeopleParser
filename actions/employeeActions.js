@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const db = require('../db');
-const { getDepartments } = require('./actions/departmentActions');
+const { getDepartments } = require('../actions/departmentActions');
 
 async function viewAllEmployees() {
     try {
