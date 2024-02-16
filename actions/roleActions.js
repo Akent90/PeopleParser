@@ -44,8 +44,30 @@ async function getRoles() {
     return rows;
 }
 
+async function deleteRole() {
+    const roles = await getRoles();
+    const roleChoices = roles.map(role => ({ name: role.title, value: role.id }));
+
+    const { roleId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'roleId',
+            message: 'Which role would you like to delete?',
+            choices: roleChoices
+        }
+    ]);
+
+    try {
+        await db.query('DELETE FROM role WHERE id = ?', [roleId]);
+        console.log('Role deleted successfully.');
+    } catch (err) {
+        console.error('Error deleting role:', err);
+    }
+}
+
 module.exports = {
     viewAllRoles,
     addRole,
     getRoles,
+    deleteRole,
 };
