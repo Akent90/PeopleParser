@@ -1,20 +1,25 @@
+// Importing necessary modules 
 const inquirer = require('inquirer');
 const db = require('../db');
 const { getDepartments } = require('../actions/departmentActions');
 
+// Function to view all employees 
 async function viewAllEmployees() {
     try {
         const [rows] = await db.query('SELECT * FROM employee');
+        // Displaying the results in a table format 
         console.table(rows);
     } catch (err) {
         console.error(err);
     }
 }
 
+// Function to add a new employee 
 async function addEmployee() {
     const roles = await getRoles();
     const managers = await getManagers();
 
+    // Creating choices for roles and managers for the user to select from 
     const roleChoices = roles.map( role => ({ name: role.title, value: role.id }));
     const managerChoices = managers.map(manager => ({ name: `${manager.first_name} ${manager.last_name}`, value: manager.id }));
 
@@ -56,7 +61,9 @@ async function addEmployee() {
     }
 }
 
+// Function to update an employee's role 
 async function updateEmployeeRole() {
+    // Getting a list of employees for selection
     const employees = await getEmployees();
     const employeeChoices = employees.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }));
 
@@ -89,20 +96,24 @@ async function updateEmployeeRole() {
     }         
 }
 
+// Function to retrive a list of all employees 
 async function getEmployees() {
     const [rows] = await db.query('SELECT id, first_name, last_name FROM employee');
     return rows;
 }
 
 async function getManagers() {
+    // Querying the database to select all employees who are managers 
     const [rows] = await db.query('SELECT id, first_name, last_name FROM employee WHERE manager_id IS NULL');
     return rows;
 }
 
 async function updateEmployeeManager() {
+    // Getting a list of employees for selection
     const employees = await getEmployees();
     const employeeChoices = employees.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }));
 
+    // Getting a list of managers for selection
     const managers = await getManagers();
     const managerChoices = managers.map(mgr => ({ name: `${mgr.first_name} ${mgr.last_name}`, value: mgr.id }));
     managerChoices.unshift({ name: 'None', value: null });
@@ -130,6 +141,7 @@ async function updateEmployeeManager() {
     }
 }
 
+// Function to view employees by their manager 
 async function viewEmployeesByManager() {
     const managers = await getManagers();
     const managerChoices = managers.map(mgr => ({ name: `${mgr.first_name} ${mgr.last_name}`, value: mrg.id }));
@@ -144,6 +156,7 @@ async function viewEmployeesByManager() {
     ]);
 
     try {
+        // Querying the databse to select employees who report to the chosen manager
         const [rows] = await db.query('SELECT * FROM employee WHERE manager_id = ?', [managerId]);
         console.table(rows);
     } catch (err) {
@@ -151,6 +164,7 @@ async function viewEmployeesByManager() {
     }
 }
 
+// Function to view employees by their department  
 async function viewEmployeesByDepartment() {
     const departments = await getDepartments();
     const departmentChoices = departments.map(dept => ({ name: dept.name, value: dept.id }));
@@ -175,6 +189,7 @@ async function viewEmployeesByDepartment() {
     }
 }
 
+// Function to delete an employee 
 async function deleteEmployee() {
     const employees = await getEmployees();
     const employeeChoices = employees.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }));
@@ -196,6 +211,7 @@ async function deleteEmployee() {
     }
 }
 
+// Exporting functions to be used in other parts of the application 
 module.exports = {
     viewAllEmployees,
     addEmployee,
