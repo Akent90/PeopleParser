@@ -98,6 +98,37 @@ async function getManagers() {
     return rows;
 }
 
+async function updateEmployeeManager() {
+    const employees = await getEmployees();
+    const employeeChoices = employees.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }));
+
+    const managers = await getManagers();
+    const managerChoices = managers.map(mgr => ({ name: `${mgr.first_name} ${mgr.last_name}`, value: mgr.id }));
+    managerChoices.unshift({ name: 'None', value: null });
+
+    const { employeeId, managerId } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeId',
+            message: 'Which employee\'s manager do you want to update?',
+            choices: employeeChoices
+        },
+        {
+            type: 'list',
+            name: 'managerId',
+            message: 'Who is the new manager?',
+            choices: managerChoices
+        }
+    ]);
+
+    try {
+        await db.query('UPDATE employee SET manager_id = ? WHERE id = ?', [managerId, employeeId]);
+        console.log('Employee manager updated successfully.');
+    } catch (err) {
+        console.error('Error updating employee manager:', err);
+    }
+}
+
 module.exports = {
     viewAllEmployees,
     addEmployee,

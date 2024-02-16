@@ -81,4 +81,6 @@ module.exports = {
     viewAllDepartments,
     addDepartment,
     getDepartments,
+    deleteDepartment,
+    viewDepartmentBudget,
 };
